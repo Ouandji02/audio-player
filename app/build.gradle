@@ -79,4 +79,9 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$coroutines_version"
     //permission
     implementation("com.google.accompanist:accompanist-permissions:0.23.1")
+    //media player
+    implementation "androidx.core:core:1.7.0"
+    implementation "androidx.media:media:1.5.0"
+    implementation "com.google.android.exoplayer:exoplayer:2.17.0"
+    implementation "com.google.android.exoplayer:extension-mediasession:2.17.0"
 }

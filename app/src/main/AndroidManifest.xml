@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
+        android:name=".EntryApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -27,6 +28,12 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+        <service android:name=".media.services.MediaPlayerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.media.browser.MediaBrowserService"/>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
