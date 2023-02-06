@@ -12,7 +12,7 @@ class AudioRepositoryImpl(private val contentResolverHelper: ContentResolverHelp
             val data = contentResolverHelper.getAudioData()
             emit(data)
         }catch (_: Exception){
-            emit(null)
+            emit(listOf<Audio>())
         }
     }
 

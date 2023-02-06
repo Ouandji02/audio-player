@@ -10,6 +10,7 @@ import com.google.android.exoplayer2.upstream.DefaultDataSource
 import com.google.android.exoplayer2.upstream.cache.CacheDataSource
 import com.google.android.exoplayer2.upstream.cache.NoOpCacheEvictor
 import com.google.android.exoplayer2.upstream.cache.SimpleCache
+import com.phone.audioplayer.media.exoPlayer.MediaSource
 import org.koin.dsl.module
 import java.io.File
 
@@ -46,6 +47,10 @@ val serviceModule = module {
    }
     single {
         provideExoPlayer(get(), get())
+    }
+
+    single {
+        MediaSource(get())
     }
     factory {
         provideDataSourceFactory(get())
