@@ -87,7 +87,7 @@ class MediaPlayerServiceConnection(context: Context) {
                 context,
                 mediaBrowser.sessionToken
             ).apply {
-                registerCallback()
+                registerCallback(MediaControllerCallBack())
             }
         }
 
@@ -118,6 +118,7 @@ class MediaPlayerServiceConnection(context: Context) {
 
         override fun onSessionDestroyed() {
             super.onSessionDestroyed()
+            mediaBrowserServiceCallBack.onConnectionSuspended()
         }
     }
 }
