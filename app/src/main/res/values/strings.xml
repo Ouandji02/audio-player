@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Audio Player</string>
+    <string name="generic_error">An error as occurred</string>
+    <string name="error_not_found">Audio not found</string>
+    <string name="notification_channel">notification_channel</string>
+    <string name="notification_description">notification_channel</string>
 </resources>
