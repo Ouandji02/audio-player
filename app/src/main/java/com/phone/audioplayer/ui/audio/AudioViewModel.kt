@@ -20,15 +20,16 @@ class AudioViewModel(
     mediaPlayerServiceConnection: MediaPlayerServiceConnection
 ) : ViewModel() {
 
-    var audioList = mutableListOf<Audio?>()
+    var audioList = mutableListOf<Audio>()
     val currentPlayingAudio = mediaPlayerServiceConnection.currentAudioPlaying
     var isConnected = mediaPlayerServiceConnection.isConnected
     lateinit var rootMediaId: String
     var currentPlayBackPosition by mutableStateOf(0L)
     private var updatePosition = true
     private val playBackState = mediaPlayerServiceConnection.playBackState
-    private val audioIsPlaying: Boolean
+     val audioIsPlaying: Boolean
         get() = playBackState.value?.isPlaying == true
+
 
     private val subscriptionCallback = object : MediaBrowserCompat.SubscriptionCallback() {
         override fun onChildrenLoaded(
@@ -38,9 +39,7 @@ class AudioViewModel(
             super.onChildrenLoaded(parentId, children)
         }
     }
-    private val mediaPlayerServiceConnection = mediaPlayerServiceConnection.also {
-
-    }
+    private val mediaPlayerServiceConnection = mediaPlayerServiceConnection.also { updatePlayBack() }
 
     var currentDuration = MediaPlayerService.currentDuration
     var currentAudioProgress = mutableStateOf(0f)
@@ -83,6 +82,7 @@ class AudioViewModel(
             currentAudio.id.toString(),
             null
         )
+        println(currentPlayingAudio.value)
     }
 
     fun stopPlayBack() {

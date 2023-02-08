@@ -33,7 +33,7 @@ internal class NotificationManager(
             setMediaDescriptionAdapter(DescriptionAdapter(mediaController))
         }
 
-        val notificationManager = builder.build()
+        notificationManager = builder.build()
 
         notificationManager.apply {
             setMediaSessionToken(sessionToken)

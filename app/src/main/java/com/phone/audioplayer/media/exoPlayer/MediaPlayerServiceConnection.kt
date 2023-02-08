@@ -19,7 +19,7 @@ class MediaPlayerServiceConnection(context: Context) {
     private var _isConnected: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val isConnected: StateFlow<Boolean>
         get() = _isConnected
-    val currentAudioPlaying: MutableStateFlow<Audio?> = MutableStateFlow(null)
+    var currentAudioPlaying: MutableStateFlow<Audio?> = MutableStateFlow(null)
 
     lateinit var mediaControllerCompat: MediaControllerCompat
 
