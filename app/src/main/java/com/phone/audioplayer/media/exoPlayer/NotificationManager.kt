@@ -1,5 +1,6 @@
 package com.phone.audioplayer.media.exoPlayer
 
+import android.app.Notification
 import android.app.PendingIntent
 import android.content.Context
 import android.graphics.Bitmap
@@ -26,7 +27,7 @@ internal class NotificationManager(
             K.PLAYBACK_NOTIFICATION_CHANNEL_ID
         )
 
-        builder.apply {
+        with(builder) {
             setNotificationListener(notificationListener)
             setChannelDescriptionResourceId(androidx.appcompat.R.string.abc_action_bar_home_description)
             setChannelNameResourceId(com.google.android.exoplayer2.R.string.exo_download_notification_channel_name)
@@ -35,11 +36,13 @@ internal class NotificationManager(
 
         notificationManager = builder.build()
 
-        notificationManager.apply {
+        with(notificationManager) {
             setMediaSessionToken(sessionToken)
             setSmallIcon(R.drawable.music_icon)
             setUseRewindAction(false)
             setUseFastForwardAction(false)
+            setUseNextAction(true)
+            setUsePreviousAction(true)
         }
     }
 

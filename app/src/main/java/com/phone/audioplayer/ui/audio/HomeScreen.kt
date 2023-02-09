@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.phone.audioplayer.domain.model.Audio
 import com.phone.audioplayer.ui.theme.Shapes
@@ -101,18 +102,14 @@ fun BottomBar(
                         tint = Color.White
                     )
                 }
-                Column() {
+                Column(modifier = Modifier.fillMaxWidth(.65f)) {
                     Text(
-                        text = audio.displayName.apply {
-                            substring(
-                                0,
-                                if (this.length > 30) 30 else this.length
-                            )
-                        },
+                        text = audio.displayName,
                         style = MaterialTheme.typography.subtitle1.copy(
                             color = Color.White,
                             fontWeight = FontWeight.Bold
-                        )
+                        ),
+                        overflow = TextOverflow.Ellipsis
                     )
                     Text(
                         audio.artist,

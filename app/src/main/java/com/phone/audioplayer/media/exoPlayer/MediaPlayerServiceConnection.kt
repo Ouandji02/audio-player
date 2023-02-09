@@ -104,6 +104,7 @@ class MediaPlayerServiceConnection(context: Context) {
         override fun onPlaybackStateChanged(state: PlaybackStateCompat?) {
             super.onPlaybackStateChanged(state)
             _playBackState.value = state
+            println("notifyyyyyyy"+_playBackState)
         }
 
         override fun onMetadataChanged(metadata: MediaMetadataCompat?) {

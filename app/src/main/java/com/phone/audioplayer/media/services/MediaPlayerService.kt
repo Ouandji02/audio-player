@@ -30,7 +30,7 @@ import org.koin.android.ext.android.get
 
 class MediaPlayerService : MediaBrowserServiceCompat() {
 
-    val dataSourceFactory: CacheDataSource.Factory = get()
+    private val dataSourceFactory: CacheDataSource.Factory = get()
 
     val exoPlayer = get<ExoPlayer>()
 
@@ -43,8 +43,6 @@ class MediaPlayerService : MediaBrowserServiceCompat() {
     private lateinit var mediaPlayerNotificationManager: NotificationManager
 
     private var currentPlayingMedia: MediaMetadataCompat? = null
-
-    private var isPlayerInitialized = false
 
     var isForegroundService: Boolean = false
 
@@ -231,6 +229,7 @@ class MediaPlayerService : MediaBrowserServiceCompat() {
         exoPlayer.prepare()
         exoPlayer.seekTo(indexToPlay, 0)
         exoPlayer.playWhenReady = playWhenReady
+
     }
 
     private inner class PlayerEventListener : Player.Listener {

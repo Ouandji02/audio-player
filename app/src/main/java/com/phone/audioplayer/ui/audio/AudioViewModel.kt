@@ -13,10 +13,11 @@ import com.phone.audioplayer.media.exoPlayer.MediaPlayerServiceConnection
 import com.phone.audioplayer.media.exoPlayer.isPlaying
 import com.phone.audioplayer.media.services.MediaPlayerService
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 class AudioViewModel(
-    val audioRepository: AudioRepository,
+    private val audioRepository: AudioRepository,
     mediaPlayerServiceConnection: MediaPlayerServiceConnection
 ) : ViewModel() {
 
@@ -27,8 +28,15 @@ class AudioViewModel(
     var currentPlayBackPosition by mutableStateOf(0L)
     private var updatePosition = true
     private val playBackState = mediaPlayerServiceConnection.playBackState
-     val audioIsPlaying: Boolean
+    val audioIsPlaying: Boolean
         get() = playBackState.value?.isPlaying == true
+    private val mediaPlayerServiceConnection =
+        mediaPlayerServiceConnection.also { updatePlayBack() }
+
+    private val currentDuration
+        get() = MediaPlayerService.currentDuration
+
+    var currentAudioProgress = mutableStateOf(0f)
 
 
     private val subscriptionCallback = object : MediaBrowserCompat.SubscriptionCallback() {
@@ -39,10 +47,6 @@ class AudioViewModel(
             super.onChildrenLoaded(parentId, children)
         }
     }
-    private val mediaPlayerServiceConnection = mediaPlayerServiceConnection.also { updatePlayBack() }
-
-    var currentDuration = MediaPlayerService.currentDuration
-    var currentAudioProgress = mutableStateOf(0f)
 
     init {
         viewModelScope.launch {
@@ -111,15 +115,18 @@ class AudioViewModel(
         )
     }
 
-    fun updatePlayBack() {
+    private fun updatePlayBack() {
         viewModelScope.launch {
-            val position = playBackState.value?.position ?: 0
-            if (currentPlayBackPosition != position) currentPlayBackPosition = position
-            if (currentDuration > 0) currentAudioProgress.value = (
-                    currentPlayBackPosition.toFloat() / currentDuration.toFloat() * 100f
-                    )
-            delay(K.PLAYBACK_UPDATE_INTERVAL)
-            if (updatePosition) updatePlayBack()
+            val position = MutableStateFlow(playBackState.value?.position ?: 0)
+            position.collect {
+                if (currentPlayBackPosition != it) currentPlayBackPosition = it
+                if (currentDuration > 0)
+                    currentAudioProgress.value = (
+                            currentPlayBackPosition.toFloat() / currentDuration.toFloat() * 100f
+                            )
+                delay(K.PLAYBACK_UPDATE_INTERVAL)
+                if (updatePosition) updatePlayBack()
+            }
         }
     }
 
